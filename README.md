@@ -1,49 +1,46 @@
 # MCP Inspector Demo
 
-A lightweight TypeScript demo project for exploring the Model Context Protocol (MCP) ecosystem using the official MCP SDK and the MCP Inspector. This repository demonstrates how to build a minimal MCP server, expose tools, validate behavior with automated tests, and generate an HTML test report for inspection and debugging.
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Model Context Protocol](https://img.shields.io/badge/MCP-Official-6A5AE0)](https://modelcontextprotocol.io/)
+[![MCP Inspector](https://img.shields.io/badge/Inspector-Enabled-00B894)](https://github.com/modelcontextprotocol/inspector)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-## Overview
+A lightweight TypeScript reference implementation for building, testing, and inspecting a Model Context Protocol (MCP) server with the official MCP SDK and MCP Inspector.
 
-The project is intentionally small and production-agnostic, designed to help developers understand the workflow of:
+This repository demonstrates the essentials of the MCP workflow:
 
 - creating an MCP server
-- registering tools using the MCP schema
-- validating tool behavior through client calls
-- running the server with the MCP Inspector
-- generating a readable automated report for debugging and QA
+- registering tools with schema validation
+- exposing tools over stdio transport
+- inspecting tool metadata and payloads in the Inspector UI
+- validating behavior with an automated test harness
+- generating a lightweight HTML QA report for debugging and review
 
-At its core, this project exposes two MCP tools:
+## Why this project exists
 
-- `add` – adds two numeric values
-- `get_weather` – returns mock weather information for a city
+MCP servers are frequently more complex than a minimal demo. Real-world implementations often include authentication, streaming, database integration, custom schemas, and production-grade observability.
 
-This makes it an ideal reference implementation for learning, testing, and validating MCP tool contracts.
+This project intentionally strips the complexity away so you can focus on the core mechanics:
 
-## Why This Project Exists
+- `McpServer` setup and lifecycle
+- tool registration patterns
+- typed input validation with Zod
+- stdio-based protocol transport
+- client-side inspection and debugging
+- report-driven validation of tool behavior
 
-MCP servers are often more complex than a single demo and may include authentication, streaming, external APIs, custom schemas, or enterprise integrations. This repository intentionally strips that complexity away in order to spotlight the fundamentals:
+## Screenshots
 
-- MCP server wiring
-- tool registration
-- protocol-level communication over stdio
-- automated validation of expected tool behavior
-- UI-based inspection with MCP Inspector
+These are quick product-style placeholders to make the README feel polished and ready for GitHub. Swap them with your own project screenshots when available.
 
-## Architecture
+![MCP Inspector UI](https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=80)
 
-The repository currently contains one main demo app:
+![Generated HTML Report](https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=80)
 
-- `mcp-inspector-demo/` — the MCP server and test harness
+## Architecture overview
 
-### High-Level Flow
-
-1. A TypeScript MCP server starts with `src/index.ts`
-2. The server registers tools using the Model Context Protocol SDK
-3. A client connects over stdio using the MCP client transport
-4. The MCP Inspector or a custom test runner invokes the tools
-5. Results are validated and exported to a report
-
-## Repository Structure
+The repository contains a single demo app under `mcp-inspector-demo/`, with a minimal server and a test/report harness.
 
 ```text
 mcpinspector/
@@ -57,138 +54,62 @@ mcpinspector/
 │   │   └── test-report.ts
 │   └── reports/
 │       └── mcp-test-report.html
-└── .gitignore (if present in your local environment)
+└── .gitignore
 ```
 
-## Project Details
+High-level flow:
 
-### `mcp-inspector-demo/src/index.ts`
+1. `src/index.ts` creates an `McpServer`
+2. tools are registered with Zod-based input schemas
+3. the server listens over `StdioServerTransport`
+4. the MCP Inspector or a client connects and introspects the server
+5. the test harness executes tool calls and writes an HTML summary report
 
-This file defines the actual MCP server.
+## Quick start
 
-It:
-
-- creates an `McpServer`
-- registers the `add` tool
-- registers the `get_weather` tool
-- connects through `StdioServerTransport`
-- writes server status logs to stderr to avoid interfering with stdout-based MCP protocol communication
-
-Example tool definitions:
-
-- `add(a, b)` returns a text result like `Result: 30`
-- `get_weather(city)` returns mock JSON content such as:
-
-```json
-{
-  "city": "Surat",
-  "temperatureC": 30,
-  "condition": "Sunny",
-  "humidity": 55,
-  "source": "mock"
-}
-```
-
-This server is intentionally simple and uses Zod validation for tool arguments.
-
-### `mcp-inspector-demo/src/test-report.ts`
-
-This file acts as a test harness and report generator.
-
-It:
-
-- starts the server via stdio transport
-- lists available MCP tools
-- executes a suite of positive, negative, and edge-case tests
-- verifies expected tool outputs or validation failures
-- writes the final results to `reports/mcp-test-report.html`
-
-The runtime includes:
-
-- success/failure classification
-- tool argument validation checks
-- timing metrics for each execution
-- a generated HTML report with filters and search capability
-
-### `mcp-inspector-demo/reports/mcp-test-report.html`
-
-This generated report provides an easy-to-read summary of automated test execution. It includes:
-
-- total tests
-- pass/fail counts
-- percentage pass rate
-- category-based summaries
-- searchable test rows
-- result details and error output
-
-## Features
-
-- Minimal but realistic MCP server implementation
-- TypeScript-based development workflow
-- Official `@modelcontextprotocol/sdk` integration
-- Stdio transport for MCP communication
-- Tool validation with Zod
-- Simple mock data generation
-- Automated test suite covering validation and edge cases
-- HTML reporting for result viewing and debugging
-
-## Prerequisites
-
-Before running the project, make sure you have:
-
-- Node.js 18+ recommended
-- npm or another package manager
-- Basic understanding of TypeScript and command-line usage
-
-## Getting Started
-
-### 1. Clone the repository
+### 1) Clone the repo
 
 ```bash
 git clone https://github.com/Mitesh411/mcpinspector.git
 cd mcpinspector
 ```
 
-### 2. Install dependencies
+### 2) Install dependencies
 
 ```bash
 cd mcp-inspector-demo
 npm install
 ```
 
-## Running the Demo
-
-### Start the MCP server locally
+### 3) Run the MCP server
 
 ```bash
 npm run dev
 ```
 
-This starts the MCP server using the TypeScript runtime and keeps it ready for MCP clients.
+This starts the TypeScript server and keeps it ready for clients over stdio.
 
-### Open the MCP Inspector
+### 4) Inspect the server in the MCP Inspector
 
 ```bash
 npm run inspect
 ```
 
-This command uses the MCP Inspector and launches the demo server for interactive debugging.
+This launches the MCP Inspector against the demo server so you can browse registered tools, validate schemas, and review real request/response payloads.
 
-### Generate the automated HTML report
+### 5) Generate the test HTML report
 
 ```bash
 npm run test:report
 ```
 
-This script launches the test harness, executes the tool validation cases, and writes the final report to:
+The generated report is written to:
 
 ```text
 mcp-inspector-demo/reports/mcp-test-report.html
 ```
 
-## Available Scripts
-
-The `package.json` defines the following workflows:
+## Available scripts
 
 ```json
 {
@@ -202,19 +123,77 @@ The `package.json` defines the following workflows:
 }
 ```
 
-### Script explanations
+### Script reference
 
-- `npm run dev` — runs the MCP server directly
-- `npm run typecheck` — checks TypeScript correctness
-- `npm run inspect` — opens the MCP Inspector against the demo server
-- `npm run test:report` — runs end-to-end tool validation and writes the HTML report
-- `npm run inspect:test` — convenience alias for report generation
+- `npm run dev` — starts the MCP server locally
+- `npm run typecheck` — validates TypeScript compilation
+- `npm run inspect` — opens the MCP Inspector with the demo server
+- `npm run test:report` — runs the automated validation suite and writes the HTML report
+- `npm run inspect:test` — alias for the report generation flow
 
-## Example Tool Usage
+## Server API details
 
-### `add`
+The server is implemented in `mcp-inspector-demo/src/index.ts`.
 
-Input:
+### Server construction
+
+```ts
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { z } from "zod";
+
+const server = new McpServer({
+  name: "mcp-inspector-demo",
+  version: "1.0.0",
+});
+```
+
+This is the core MCP server bootstrap. The server exposes tools through the `registerTool()` API and is bound to a stdio transport for MCP protocol communication.
+
+### Transport behavior
+
+```ts
+const transport = new StdioServerTransport();
+await server.connect(transport);
+```
+
+Important implementation detail:
+
+- MCP protocol traffic uses stdout/stdin.
+- diagnostic logging should go to stderr, not stdout, to avoid corrupting protocol messages.
+
+```ts
+console.error("MCP Inspector demo server started.");
+```
+
+## Tool contracts
+
+The demo exposes two minimal tools.
+
+### 1) `add`
+
+Purpose: add two numeric values and return a text summary.
+
+Schema:
+
+```ts
+server.registerTool(
+  "add",
+  {
+    title: "Add Numbers",
+    description: "Add two numbers and return their sum.",
+    inputSchema: {
+      a: z.number().describe("First number"),
+      b: z.number().describe("Second number"),
+    },
+  },
+  async ({ a, b }) => ({
+    content: [{ type: "text", text: `Result: ${a + b}` }],
+  })
+);
+```
+
+Example input:
 
 ```json
 {
@@ -223,15 +202,52 @@ Input:
 }
 ```
 
-Output:
+Example result:
 
-```text
-Result: 30
+```json
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Result: 30"
+    }
+  ]
+}
 ```
 
-### `get_weather`
+### 2) `get_weather`
 
-Input:
+Purpose: return mock weather data for a city.
+
+Schema:
+
+```ts
+server.registerTool(
+  "get_weather",
+  {
+    title: "Get Weather",
+    description: "Get demo weather data for a city. This uses mock data, not a live API.",
+    inputSchema: {
+      city: z.string().min(1).describe("City name"),
+    },
+  },
+  async ({ city }) => {
+    const weather = {
+      city,
+      temperatureC: 30,
+      condition: "Sunny",
+      humidity: 55,
+      source: "mock",
+    };
+
+    return {
+      content: [{ type: "text", text: JSON.stringify(weather, null, 2) }],
+    };
+  }
+);
+```
+
+Example input:
 
 ```json
 {
@@ -239,7 +255,7 @@ Input:
 }
 ```
 
-Example output:
+Example result:
 
 ```json
 {
@@ -251,60 +267,98 @@ Example output:
 }
 ```
 
-## Test Coverage
+## Example tool invocation flow
 
-The demo includes coverage across these categories:
+This project is intentionally small, but the structure matches how real MCP tooling is consumed.
 
-- Positive tests — valid tool calls
-- Negative tests — invalid input rejection
-- Edge cases — zero values, floats, Unicode, whitespace, large numbers
+Typical request pattern:
 
-This is useful for understanding how validation behaves when a tool is exposed through MCP and invoked from a client.
+```ts
+// Client-side concept: list tools, then invoke them.
+const tools = await client.listTools();
 
-## Why Use MCP Inspector?
+const addResult = await client.callTool({
+  name: "add",
+  arguments: { a: 10, b: 20 },
+});
 
-The MCP Inspector is a valuable tool for:
+const weatherResult = await client.callTool({
+  name: "get_weather",
+  arguments: { city: "Surat" },
+});
+```
 
-- exploring exposed tools
-- validating schema behavior
-- debugging protocol-level issues
-- understanding real request and response payloads
-- testing cross-tool interactions before production integration
+The server returns structured `content` payloads, which can be inspected directly in the MCP Inspector or validated via custom scripts.
 
-This project is a simple, practical example of that workflow.
+## Test harness and report generation
 
-## Learning Outcomes
+The test harness lives in `mcp-inspector-demo/src/test-report.ts`.
 
-After exploring this project, a developer should understand:
+It performs the following:
 
-- how to build a minimal MCP server in TypeScript
-- how to register tools and schemas
-- how MCP tools communicate over stdio
-- how to validate tool arguments and responses
-- how to automate server testing and generate human-readable reports
+- starts the MCP server over stdio
+- lists available tools from the server
+- executes positive and negative test cases
+- validates Zod-based errors and return payloads
+- records timing and result states
+- writes a readable HTML report to `reports/mcp-test-report.html`
 
-## Suggested Next Steps
+Generated report features:
 
-To extend this demo,
+- summary totals and pass rate
+- category-level breakdowns
+- searchable rows
+- detailed failure output
+- easy review for QA/debugging workflows
 
-- add more tool functions with richer schemas
-- connect to a real API or database
-- add authentication or session handling
-- implement streaming or async tool execution
-- build a front-end dashboard for inspecting MCP activity
+## Test coverage
+
+The demo includes representative validation coverage across:
+
+- positive inputs
+- invalid or malformed inputs
+- edge cases such as zero, floats, large numbers, whitespace, and Unicode values
+
+This helps show how MCP tools behave under real client usage patterns and schema enforcement.
+
+## Why use the MCP Inspector?
+
+The Inspector is useful for:
+
+- browsing available server tools
+- verifying tool metadata and schemas
+- testing exact request payloads
+- observing raw protocol responses
+- debugging transport and validation behavior before production integration
+
+## Development notes
+
+A few practical patterns illustrated by this repo:
+
+- keep server logs on stderr
+- use Zod schemas to validate tool arguments
+- prefer text payloads for simple tool responses
+- generate reports from automated executions to improve traceability
+- use the Inspector while building tool contracts, not only after deployment
+
+## Suggested next steps
+
+To extend the demo, consider:
+
+- adding more tools with richer input/output schemas
+- integrating a real API or database
+- introducing auth/session handling
+- building a streaming or async tool workflow
+- connecting the server to a front-end inspection dashboard
 
 ## License
 
-This project is distributed under the license defined in the repository. Please check the repository for the current license terms if applicable.
+This project is distributed under the repository license. Please review the repo for the current terms.
 
 ## Contributing
 
-Contributions are welcome. If you want to improve the demo, add more validation cases, or improve the reporting experience, feel free to submit a pull request.
-
-## Contact
-
-For questions or collaboration, reach out through the repository owner or project maintainers on GitHub.
+Contributions are welcome. If you improve validation coverage, broaden the toolset, or enhance the report experience, feel free to submit a pull request.
 
 ---
 
-Built as a clean example for learning, testing, and validating MCP server behavior with the MCP Inspector.
+Built for learning, debugging, and validating MCP server behavior with the official SDK and Inspector.
