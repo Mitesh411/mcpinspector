@@ -1,0 +1,14 @@
+
+{
+  "name": "mcp-inspector-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "inspect": "npx @modelcontextprotocol/inspector npx tsx src/index.ts",
+    "test:report": "tsx src/test-report.ts",
+    "inspect:test": "npm run test:report"
+  }
+}

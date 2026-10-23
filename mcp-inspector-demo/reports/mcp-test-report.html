@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MCP Inspector Test Report</title>
+<style>
+:root { color-scheme: light; font-family: Inter, system-ui, sans-serif; }
+body { margin: 0; padding: 28px; background: #f4f7fb; color: #182230; }
+main { max-width: 1600px; margin: auto; }
+h1 { margin-bottom: 6px; }
+.muted { color: #64748b; font-size: 13px; }
+.cards { display: grid; grid-template-columns: repeat(4,minmax(140px,1fr)); gap: 14px; margin: 24px 0; }
+.card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; }
+.number { font-size: 30px; font-weight: 750; margin: 7px 0; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
+input, select { padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; background: white; }
+.table-wrap { overflow: auto; background: white; border: 1px solid #e2e8f0; border-radius: 12px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e8edf4; vertical-align: top; }
+th { background: #edf2f8; position: sticky; top: 0; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; max-width: 220px; margin: 0; }
+.status { font-weight: 800; }
+.pass { color: #15803d; }
+.fail { color: #b91c1c; }
+.failed-row { background: #fff1f2; }
+@media(max-width:700px) { body { padding: 12px; } .cards { grid-template-columns: repeat(2,1fr); } }
+</style>
+</head>
+<body>
+<main>
+<h1>MCP Inspector — Automated Test Report</h1>
+<div class="muted">Generated: 2026-10-22T13:10:41.392Z</div>
+<div class="muted">Server: mcp-inspector-demo · Transport: stdio</div>
+<section class="cards">
+<div class="card"><div class="muted">Total tests</div><div class="number">18</div></div>
+<div class="card"><div class="muted">Passed</div><div class="number">18</div></div>
+<div class="card"><div class="muted">Failed</div><div class="number">0</div></div>
+<div class="card"><div class="muted">Pass rate</div><div class="number">100.0%</div></div>
+<div class="card">
+      <div class="muted">Positive tests</div>
+      <div class="number">5/5</div>
+      <div class="muted">passed</div>
+    </div><div class="card">
+      <div class="muted">Negative tests</div>
+      <div class="number">6/6</div>
+      <div class="muted">passed</div>
+    </div><div class="card">
+      <div class="muted">Edge tests</div>
+      <div class="number">7/7</div>
+      <div class="muted">passed</div>
+    </div>
+</section>
+<div class="toolbar">
+<input id="search" placeholder="Search tests..." aria-label="Search tests">
+<select id="category" aria-label="Filter category">
+<option value="">All categories</option>
+<option>Positive</option><option>Negative</option><option>Edge</option>
+</select>
+<select id="status" aria-label="Filter status">
+<option value="">All results</option>
+<option>PASS</option><option>FAIL</option>
+</select>
+</div>
+<div class="table-wrap">
+<table>
+<thead><tr>
+<th>#</th><th>Category</th><th>Test</th><th>Tool</th>
+<th>Arguments</th><th>Expected</th><th>Status</th>
+<th>Duration</th><th>Actual / Error</th>
+</tr></thead>
+<tbody id="results">
+    <tr class="">
+      <td>1</td>
+      <td>Positive</td>
+      <td>Add two positive integers</td>
+      <td><code>add</code></td>
+      <td><pre>{
+  &quot;a&quot;: 10,
+  &quot;b&quot;: 20
+}</pre></td>
+      <td>Result: 30</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>4.38 ms</td>
+      <td>Result: 30</td>
+    </tr>
+  
+    <tr class="">
+      <td>2</td>
+      <td>Positive</td>
+      <td>Add decimal values</td>
+      <td><code>add</code></td>
+      <td><pre>{
+  &quot;a&quot;: 1.5,
+  &quot;b&quot;: 2.5
+}</pre></td>
+      <td>Result: 4</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>0.75 ms</td>
+      <td>Result: 4</td>
+    </tr>
+  
+    <tr class="">
+      <td>3</td>
+      <td>Positive</td>
+      <td>Add negative numbers</td>
+      <td><code>add</code></td>
+      <td><pre>{
+  &quot;a&quot;: -10,
+  &quot;b&quot;: -5
+}</pre></td>
+      <td>Result: -15</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>0.57 ms</td>
+      <td>Result: -15</td>
+    </tr>
+  
+    <tr class="">
+      <td>4</td>
+      <td>Positive</td>
+      <td>Add mixed-sign numbers</td>
+      <td><code>add</code></td>
+      <td><pre>{
+  &quot;a&quot;: -10,
+  &quot;b&quot;: 25
+}</pre></td>
+      <td>Result: 15</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>0.46 ms</td>
+      <td>Result: 15</td>
+    </tr>
+  
+    <tr class="">
+      <td>5</td>
+      <td>Positive</td>
+      <td>Return weather for Surat</td>
+      <td><code>get_weather</code></td>
+      <td><pre>{
+  &quot;city&quot;: &quot;Surat&quot;
+}</pre></td>
+      <td>City Surat, Sunny, 30°C</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>0.71 ms</td>
+      <td>{
+  &quot;city&quot;: &quot;Surat&quot;,
+  &quot;temperatureC&quot;: 30,
+  &quot;condition&quot;: &quot;Sunny&quot;,
+  &quot;humidity&quot;: 55,
+  &quot;source&quot;: &quot;mock&quot;
+}</td>
+    </tr>
+  
+    <tr class="">
+      <td>6</td>
+      <td>Negative</td>
+      <td>Reject string instead of number</td>
+      <td><code>add</code></td>
+      <td><pre>{
+  &quot;a&quot;: &quot;10&quot;,
+  &quot;b&quot;: 20
+}</pre></td>
+      <td>Validation error</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>0.89 ms</td>
+      <td>MCP error -32602: Input validation error: Invalid arguments for tool add: Invalid input: expected number, received string at a</td>
+    </tr>
+  
+    <tr class="">
+      <td>7</td>
+      <td>Negative</td>
+      <td>Reject missing calculator argument</td>
+      <td><code>add</code></td>
+      <td><pre>{
+  &quot;a&quot;: 10
+}</pre></td>
+      <td>Validation error</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>0.50 ms</td>
+      <td>MCP error -32602: Input validation error: Invalid arguments for tool add: Invalid input: expected number, received undefined at b</td>
+    </tr>
+  
+    <tr class="">
+      <td>8</td>
+      <td>Negative</td>
+      <td>Reject missing all calculator arguments</td>
+      <td><code>add</code></td>
+      <td><pre>{}</pre></td>
+      <td>Validation error</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>0.70 ms</td>
+      <td>MCP error -32602: Input validation error: Invalid arguments for tool add: Invalid input: expected number, received undefined at a
+Invalid input: expected number, received undefined at b</td>
+    </tr>
+  
+    <tr class="">
+      <td>9</td>
+      <td>Negative</td>
+      <td>Reject empty city</td>
+      <td><code>get_weather</code></td>
+      <td><pre>{
+  &quot;city&quot;: &quot;&quot;
+}</pre></td>
+      <td>Validation error</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>0.71 ms</td>
+      <td>MCP error -32602: Input validation error: Invalid arguments for tool get_weather: Too small: expected string to have &gt;=1 characters at city</td>
+    </tr>
+  
+    <tr class="">
+      <td>10</td>
+      <td>Negative</td>
+      <td>Reject numeric city</td>
+      <td><code>get_weather</code></td>
+      <td><pre>{
+  &quot;city&quot;: 123
+}</pre></td>
+      <td>Validation error</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>0.59 ms</td>
+      <td>MCP error -32602: Input validation error: Invalid arguments for tool get_weather: Invalid input: expected string, received number at city</td>
+    </tr>
+  
+    <tr class="">
+      <td>11</td>
+      <td>Negative</td>
+      <td>Reject unknown tool</td>
+      <td><code>does_not_exist</code></td>
+      <td><pre>{}</pre></td>
+      <td>Tool call error</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>0.43 ms</td>
+      <td>MCP error -32602: Tool does_not_exist not found</td>
+    </tr>
+  
+    <tr class="">
+      <td>12</td>
+      <td>Edge</td>
+      <td>Add zero values</td>
+      <td><code>add</code></td>
+      <td><pre>{
+  &quot;a&quot;: 0,
+  &quot;b&quot;: 0
+}</pre></td>
+      <td>Result: 0</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>0.35 ms</td>
+      <td>Result: 0</td>
+    </tr>
+  
+    <tr class="">
+      <td>13</td>
+      <td>Edge</td>
+      <td>Add negative zero</td>
+      <td><code>add</code></td>
+      <td><pre>{
+  &quot;a&quot;: 0,
+  &quot;b&quot;: 0
+}</pre></td>
+      <td>Result: 0</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>0.33 ms</td>
+      <td>Result: 0</td>
+    </tr>
+  
+    <tr class="">
+      <td>14</td>
+      <td>Edge</td>
+      <td>Add very large finite numbers</td>
+      <td><code>add</code></td>
+      <td><pre>{
+  &quot;a&quot;: 1e+100,
+  &quot;b&quot;: 1e+100
+}</pre></td>
+      <td>Result: 2e+100</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>0.27 ms</td>
+      <td>Result: 2e+100</td>
+    </tr>
+  
+    <tr class="">
+      <td>15</td>
+      <td>Edge</td>
+      <td>Check floating-point precision</td>
+      <td><code>add</code></td>
+      <td><pre>{
+  &quot;a&quot;: 0.1,
+  &quot;b&quot;: 0.2
+}</pre></td>
+      <td>Result: 0.30000000000000004</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>0.35 ms</td>
+      <td>Result: 0.30000000000000004</td>
+    </tr>
+  
+    <tr class="">
+      <td>16</td>
+      <td>Edge</td>
+      <td>Accept unknown city using mock response</td>
+      <td><code>get_weather</code></td>
+      <td><pre>{
+  &quot;city&quot;: &quot;Atlantis&quot;
+}</pre></td>
+      <td>Returns mock data for Atlantis</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>0.39 ms</td>
+      <td>{
+  &quot;city&quot;: &quot;Atlantis&quot;,
+  &quot;temperatureC&quot;: 30,
+  &quot;condition&quot;: &quot;Sunny&quot;,
+  &quot;humidity&quot;: 55,
+  &quot;source&quot;: &quot;mock&quot;
+}</td>
+    </tr>
+  
+    <tr class="">
+      <td>17</td>
+      <td>Edge</td>
+      <td>Accept whitespace-only city</td>
+      <td><code>get_weather</code></td>
+      <td><pre>{
+  &quot;city&quot;: &quot;   &quot;
+}</pre></td>
+      <td>Returns mock data preserving whitespace</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>0.62 ms</td>
+      <td>{
+  &quot;city&quot;: &quot;   &quot;,
+  &quot;temperatureC&quot;: 30,
+  &quot;condition&quot;: &quot;Sunny&quot;,
+  &quot;humidity&quot;: 55,
+  &quot;source&quot;: &quot;mock&quot;
+}</td>
+    </tr>
+  
+    <tr class="">
+      <td>18</td>
+      <td>Edge</td>
+      <td>Accept Unicode city name</td>
+      <td><code>get_weather</code></td>
+      <td><pre>{
+  &quot;city&quot;: &quot;東京&quot;
+}</pre></td>
+      <td>Returns mock data for 東京</td>
+      <td><span class="status pass">PASS</span></td>
+      <td>1.05 ms</td>
+      <td>{
+  &quot;city&quot;: &quot;東京&quot;,
+  &quot;temperatureC&quot;: 30,
+  &quot;condition&quot;: &quot;Sunny&quot;,
+  &quot;humidity&quot;: 55,
+  &quot;source&quot;: &quot;mock&quot;
+}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p class="muted">Negative tests pass when the server rejects invalid input. Review edge-case behavior against your application requirements.</p>
+</main>
+<script>
+const search = document.getElementById("search");
+const category = document.getElementById("category");
+const status = document.getElementById("status");
+function filterRows() {
+  const query = search.value.toLowerCase();
+  for (const row of document.querySelectorAll("#results tr")) {
+    row.hidden =
+      !row.innerText.toLowerCase().includes(query) ||
+      (category.value && row.cells[1].innerText !== category.value) ||
+      (status.value && row.cells[6].innerText !== status.value);
+  }
+}
+search.addEventListener("input", filterRows);
+category.addEventListener("change", filterRows);
+status.addEventListener("change", filterRows);
+</script>
+</body>
+</html>
